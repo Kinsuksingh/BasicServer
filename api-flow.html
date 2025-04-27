@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Flow Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--secondary);
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+        }
+
+        .flowchart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+
+        .flowchart {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: var(--dark);
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .flowchart span {
+            display: block;
+            margin: 1rem;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .step {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--accent);
+            position: relative;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .step h3 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .endpoints-container {
+            margin-top: 4rem;
+        }
+
+        .endpoint {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--success);
+            transition: all 0.3s ease;
+        }
+
+        .endpoint:hover {
+            transform: translateX(5px);
+        }
+
+        .endpoint.get { border-left-color: var(--accent); }
+        .endpoint.post { border-left-color: var(--success); }
+        .endpoint.put { border-left-color: var(--warning); }
+        .endpoint.delete { border-left-color: var(--danger); }
+
+        .method {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-right: 1rem;
+            color: white;
+        }
+
+        .get { background-color: var(--accent); }
+        .post { background-color: var(--success); }
+        .put { background-color: var(--warning); }
+        .delete { background-color: var(--danger); }
+
+        .tip-box {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+            text-align: center;
+            border: 1px dashed var(--accent);
+        }
+
+        code {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .flowchart {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Flow Guide</h1>
+        <p class="subtitle">Client → Server → Database → Server → Client</p>
+
+        <div class="flowchart-container">
+            <h2>Architecture Flow</h2>
+            <div class="flowchart">
+                <span>Client → Server</span>
+                <span>Server → Database</span>
+                <span>Database → Server</span>
+                <span>Server → Client</span>
+            </div>
+        </div>
+
+        <div class="steps-container">
+            <div class="step">
+                <h3><span class="step-number">1</span> Client</h3>
+                <p>Browser or Postman sends an HTTP request (GET/POST/PUT/DELETE) to the server, optionally with data.</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">2</span> Server</h3>
+                <p>Express.js handles the request, processes logic, validates input, and creates database queries.</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">3</span> Database</h3>
+                <p>The database performs CRUD operations and returns the results to the server.</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">4</span> Server</h3>
+                <p>The server formats the response (JSON) and sends it back to the client along with status codes.</p>
+            </div>
+            
+            <div class="step">
+                <h3><span class="step-number">5</span> Client</h3>
+                <p>The client receives and processes the data (UI or further processing), handling errors if needed.</p>
+            </div>
+        </div>
+
+        <div class="endpoints-container">
+            <h2>API Endpoints</h2>
+            
+            <div class="endpoint get">
+                <span class="method get">GET</span>
+                <strong>/todos</strong> - Retrieve all todo items
+                <p>Optional filters: status, priority, category</p>
+            </div>
+            
+            <div class="endpoint post">
+                <span class="method post">POST</span>
+                <strong>/todos</strong> - Create new todo
+                <p>Requires: todo, status, priority, category</p>
+            </div>
+            
+            <div class="endpoint put">
+                <span class="method put">PUT</span>
+                <strong>/todos/:id</strong> - Update existing todo
+                <p>Accepts partial updates</p>
+            </div>
+            
+            <div class="endpoint delete">
+                <span class="method delete">DELETE</span>
+                <strong>/todos/:id</strong> - Remove todo permanently
+                <p>Returns confirmation message</p>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <h3>Pro Tip</h3>
+            <p>Use the <code>.http</code> file with VS Code REST Client extension to test endpoints directly from your editor!</p>
+            <p>Install the "REST</p>
+        </div>
+    </div>
+</body>
+</html>
+

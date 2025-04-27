@@ -1,0 +1,54 @@
+### Access API Documentation
+GET http://localhost:3000/
+
+
+### Fetch all todos (base case)
+GET http://localhost:3000/todos
+
+### Fetch todos with status filter
+GET http://localhost:3000/todos?status=TO%20DO
+
+### Fetch todos with priority filter
+GET http://localhost:3000/todos?priority=HIGH
+
+### Fetch todos with category filter
+GET http://localhost:3000/todos?category=WORK
+
+### Fetch todos with due_date filter
+GET http://localhost:3000/todos?due_date=2025-05-01
+
+### Combined filters example
+GET http://localhost:3000/todos?status=DONE&priority=MEDIUM&category=PERSONAL
+
+### Create a new todo
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+  "id":5,
+  "todo": "Buy groceries",
+  "priority": "HIGH",
+  "status": "TO DO",
+  "category": "PERSONAL",
+  "dueDate": "2025-05-01"
+}
+
+
+### Get specific todo
+GET http://localhost:3000/todos/5
+
+### Update todo
+PUT http://localhost:3000/todos/1
+Content-Type: application/json
+
+{
+  "todo": "shopping",
+  "priority": "LOW"
+}
+
+### Delete todo
+DELETE http://localhost:3000/todos/5
+
+
+
+
